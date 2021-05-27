@@ -383,45 +383,6 @@ class _PointerManager extends _EventManager {
 
   @override
   void installStart() {
-    drg._elements.forEach((el) {
-      startSubs.add(el.on['pointerdown'].listen((e) {
-        var event = e as PointerEvent;
-
-        // Ignore if drag is already beeing handled.
-        if (_currentDrag != null) {
-          return;
-        }
-
-        // Only handle left clicks, ignore clicks from right or middle buttons.
-        if (event.button != 0) {
-          return;
-        }
-
-        // Ensure the drag started on a valid target.
-        if (!_isValidDragStartTarget(event.target)) {
-          return;
-        }
-
-        // Prevent default on mouseDown. Reasons:
-        // * Disables image dragging handled by the browser.
-        // * Disables text selection.
-        //
-        // Note: We must NOT prevent default on form elements. Reasons:
-        // * SelectElement would not show a dropdown.
-        // * InputElement and TextAreaElement would not get focus.
-        // * ButtonElement and OptionElement - don't know if this is needed??
-        Element target = event.target;
-        if (!(target is SelectElement ||
-            target is InputElement ||
-            target is TextAreaElement ||
-            target is ButtonElement ||
-            target is OptionElement)) {
-          event.preventDefault();
-        }
-
-        handleStart(event, event.page);
-      }));
-    });
   }
 
   @override
