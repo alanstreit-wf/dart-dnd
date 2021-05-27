@@ -175,21 +175,6 @@ class Draggable {
     _elements = elementOrElementList is List<Element>
         ? elementOrElementList
         : [elementOrElementList];
-
-    // Detect Pointer Event Support.
-    JsObject jsWindow = JsObject.fromBrowserObject(window);
-
-    if (jsWindow.hasProperty('PointerEvent')) {
-      // Browser with support for Pointer Events.
-      _eventManagers.add(_PointerManager(this));
-    } else {
-      // We're on a browser with no support for Pointer Events.
-      // Install touch and mouse listeners.
-      if (TouchEvent.supported) {
-        _eventManagers.add(_TouchManager(this));
-      }
-      _eventManagers.add(_MouseManager(this));
-    }
   }
 
   /// Handles the drag start. The [moveEvent] might either be a
